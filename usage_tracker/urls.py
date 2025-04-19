@@ -7,6 +7,7 @@ from .views import (
     end_session,
     live_data_usage,
     clear_sessions,
+    register,
 )
 
 urlpatterns = [
@@ -14,6 +15,7 @@ urlpatterns = [
     path('login/', CustomLoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(next_page='login'), name='logout'),
     path('dashboard/', dashboard, name='dashboard'),
+    path('register/',register, name='register'),
     path('start/', start_session, name='start_session'),
     path('end/<int:session_id>/', end_session, name='end_session'),
     path('live-usage/', live_data_usage, name='live_data_usage'),

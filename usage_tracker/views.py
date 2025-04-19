@@ -5,12 +5,23 @@ from django.contrib.auth.views import LoginView
 from django.urls import reverse_lazy
 from django.http import JsonResponse
 from django.contrib import messages
-from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.forms import PasswordChangeForm, UserCreationForm
 from django.contrib.auth import update_session_auth_hash
 
 from .models import UsageSession
 from .utils import get_wifi_usage
 
+def register(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Account created successfully! You can now log in.')
+            return redirect('login')  # Make sure 'login' is the name of your login URL
+    else:
+        form = UserCreationForm()
+    
+    return render(request, 'usage_tracker/registration.html', {'form': form})
 
 # Custom login view
 class CustomLoginView(LoginView):

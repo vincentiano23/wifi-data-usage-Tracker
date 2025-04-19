@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Login | WiFi Monitor</title>
+    <title>Register | WiFi Monitor</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Google Fonts -->
@@ -20,7 +20,7 @@
             font-family: 'Inter', sans-serif;
             background: linear-gradient(135deg, #e0f7fa, #ffffff);
         }
-        .login-wrapper {
+        .register-wrapper {
             min-height: 100vh;
         }
         .card {
@@ -37,25 +37,19 @@
         .form-control {
             border-radius: 10px;
         }
-        .btn-primary {
-            border-radius: 10px;
-            background: #0077b6;
-            border: none;
-        }
-        .btn-primary:hover {
-            background: #005f86;
-        }
         .btn-success {
             border-radius: 10px;
+            background: #007b55;
+            border: none;
+        }
+        .btn-success:hover {
+            background: #005e3e;
         }
         .input-group-text {
             background-color: #e9ecef;
             border-right: none;
         }
-        .contact-admin {
-            background-color: #f8f9fa;
-            border-radius: 10px;
-            padding: 1rem;
+        .text-link {
             font-size: 0.95rem;
         }
         @keyframes fadeIn {
@@ -65,16 +59,15 @@
     </style>
 </head>
 <body>
-    <div class="container login-wrapper d-flex justify-content-center align-items-center px-3">
-        <div class="card p-4 p-md-5 w-100" style="max-width: 450px;">
+    <div class="container register-wrapper d-flex justify-content-center align-items-center px-3">
+        <div class="card p-4 p-md-5 w-100" style="max-width: 500px;">
             <div class="text-center mb-4">
                 <div class="brand-header">WiFi Data Monitor</div>
-                <p class="text-muted mb-0">Secure login to access your dashboard</p>
+                <p class="text-muted mb-0">Create your account to get started</p>
             </div>
 
             <form method="post" novalidate>
                 {% csrf_token %}
-
                 {% for field in form %}
                     <div class="mb-3">
                         {{ field.label_tag }}
@@ -86,20 +79,19 @@
                 {% endfor %}
 
                 <div class="d-grid mb-3">
-                    <button type="submit" class="btn btn-primary btn-lg">
-                        <i class="bi bi-box-arrow-in-right me-1"></i> Login
+                    <button type="submit" class="btn btn-success btn-lg">
+                        <i class="bi bi-person-plus-fill me-1"></i> Register
                     </button>
                 </div>
             </form>
 
-            <div class="text-center mt-3 contact-admin">
-                <p class="text-muted mb-1">Don't have an account?</p>
-                <a href="{% url 'register' %}" class="btn btn-success btn-sm w-100">
-                    <i class="bi bi-person-plus me-1"></i> Register Now
+            <div class="text-center mt-2 text-link">
+                <p class="text-muted mb-1">Already have an account?</p>
+                <a href="{% url 'login' %}" class="btn btn-outline-primary btn-sm w-100">
+                    <i class="bi bi-box-arrow-in-right me-1"></i> Go to Login
                 </a>
-                <p class="text-muted small mt-2">You’ll be able to change your password after logging in.</p>
             </div>
-            
+
             {% if form.non_field_errors %}
                 <div class="alert alert-danger mt-3 mb-0">
                     {{ form.non_field_errors }}
