@@ -6,7 +6,7 @@ SECRET_KEY = 'django-insecure-secret-key'
 
 DEBUG = True
 
-ALLOWED_HOSTS = ["wifi-data-usage-tracker.onrender.com"]
+ALLOWED_HOSTS = ["wifi-data-usage-tracker.onrender.com","127.0.0.1"]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -57,7 +57,13 @@ LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
-STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/dashboard/'
+STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [
+    BASE_DIR / "static", 
+]
+
+STATIC_ROOT = BASE_DIR / "staticfiles"  
