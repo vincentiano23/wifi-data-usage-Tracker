@@ -6,12 +6,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Data Usage Dashboard</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <!-- Bootstrap CSS CDN -->
     <link rel="manifest" href="{% static 'usage_tracker/manifest.json' %}">
     <meta name="theme-color" content="#ffffff">
-    <link rel="icon" type="image/png" sizes="192x192" href="{% static 'usage_tracker/icons/icon-192.png' %}">
+    <link rel="icon" sizes="192x192" href="{% static 'usage_tracker/icons/icon-192.png' %}">
+    <link rel="apple-touch-icon" sizes="192x192" href="{% static 'usage_tracker/icons/icon-192.png' %}">
+    <link rel="icon" sizes="512x512" href="{% static 'usage_tracker/icons/icon-512.png' %}">
+
     
     <!-- iOS support -->
     <link rel="apple-touch-icon" href="{% static 'usage_tracker/icons/icon-192.png' %}">
@@ -52,6 +53,7 @@
             </button>
     
             <!-- Navbar content -->
+            <button id="installApp" class="btn btn-outline-light ms-2" style="display:none;">📲 Install App</button>
             <div class="collapse navbar-collapse justify-content-end" id="navbarContent">
                 <ul class="navbar-nav">
                     <li class="nav-item dropdown">
@@ -112,7 +114,7 @@
                                         </small>
                                     </div>
 
-                                    <canvas id="usageChart" height="100" class="mb-3"></canvas>
+                                    <canvas id="usageChart-{{ session.id }}" height="100" class="mb-3"></canvas>
 
                                     <a href="{% url 'end_session' session.id %}" class="btn btn-danger btn-sm mt-2">End Session</a>
                                 {% endif %}
@@ -147,7 +149,7 @@
         let downloadData = [];
         let labels = [];
 
-        const ctx = document.getElementById('usageChart').getContext('2d');
+        const ctx = document.getElementById('usageChart-{{ sessions.0.id }}').getContext('2d');
         const usageChart = new Chart(ctx, {
             type: 'line',
             data: {
@@ -233,6 +235,25 @@
             .catch(err => console.error("Service Worker Failed:", err));
     }
 </script>
+<script>
+    let deferredPrompt;
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      // Show your own install button
+      const btn = document.getElementById('installApp');
+      if (btn) btn.style.display = 'block';
+  
+      btn.addEventListener('click', () => {
+        btn.style.display = 'none';
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then(() => {
+          deferredPrompt = null;
+        });
+      });
+    });
+  </script>
+  
 
 </body>
 </html>
