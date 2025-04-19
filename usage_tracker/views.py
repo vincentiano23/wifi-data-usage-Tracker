@@ -46,6 +46,11 @@ def live_data_usage(request):
         'downloaded_mb': round(downloaded / (1024 * 1024), 2),
         'total_mb': total_mb
     })
+
+@login_required
+def clear_sessions(request):
+    UsageSession.objects.filter(user=request.user).delete()
+    return redirect('dashboard')
 # User dashboard view
 @login_required
 def dashboard(request):

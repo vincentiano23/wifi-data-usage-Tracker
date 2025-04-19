@@ -19,6 +19,8 @@
         .session-card:hover {
             transform: scale(1.02);
         }
+        
+        
     </style>
 </head>
 <body>
@@ -81,7 +83,14 @@
             <a href="{% url 'start_session' %}" class="btn btn-success btn-lg">Start New Session</a>
         </div>
     </div>
-
+        <div class="text-center mt-3">
+            <form action="{% url 'clear_sessions' %}" method="post" onsubmit="return confirm('Are you sure you want to delete all sessions?');">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-outline-danger btn-lg px-3 py-2 mb-3 shadow-sm">
+                    🗑️ Clear All Sessions
+                </button>
+            </form>
+        </div>
     <!-- Bootstrap JS CDN -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 

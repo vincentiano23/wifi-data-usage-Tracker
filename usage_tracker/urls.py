@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import CustomLoginView, dashboard, start_session, end_session, live_data_usage
+from .views import CustomLoginView, dashboard, start_session, end_session, live_data_usage, clear_sessions
 from django.contrib.auth.views import LogoutView
 
 urlpatterns = [
@@ -9,5 +9,6 @@ urlpatterns = [
     path('start/', start_session, name='start_session'),
     path('end/<int:session_id>/', end_session, name='end_session'),
     path('live-usage/', live_data_usage, name='live_data_usage'),
+    path('clear-sessions/',clear_sessions, name='clear_sessions'),
     path('', dashboard, name='home'),  
 ]
