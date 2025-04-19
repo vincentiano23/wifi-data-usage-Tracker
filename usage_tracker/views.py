@@ -6,28 +6,28 @@ from django.contrib.auth.views import LoginView
 from django.urls import reverse_lazy
 from .utils import get_wifi_usage
 from django.http import JsonResponse
+from django.contrib import messages
 
 # Custom login view
 class CustomLoginView(LoginView):
     template_name = 'usage_tracker/login.html'
     redirect_authenticated_user = True  
-    success_url = reverse_lazy('dashboard')  
+    success_url = reverse_lazy('dashboard')
 
-# Start a new session
 @login_required
 def start_session(request):
     uploaded, downloaded = get_wifi_usage()
-    session = UsageSession.objects.create(
+    UsageSession.objects.create(
         user=request.user,
         uploaded_bytes=uploaded,
         downloaded_bytes=downloaded
     )
+    messages.success(request, "New session started.")
     return redirect('dashboard')
 
-# End a session safely
 @login_required
 def end_session(request, session_id):
-    session = UsageSession.objects.get(id=session_id, user=request.user)
+    session = get_object_or_404(UsageSession, id=session_id, user=request.user)
     current_uploaded, current_downloaded = get_wifi_usage()
 
     session.end_time = timezone.now()
@@ -35,6 +35,7 @@ def end_session(request, session_id):
     session.downloaded_bytes = max(0, current_downloaded - session.downloaded_bytes)
     session.save()
 
+    messages.success(request, "Session ended successfully.")
     return redirect('dashboard')
 
 @login_required
@@ -50,9 +51,12 @@ def live_data_usage(request):
 @login_required
 def clear_sessions(request):
     UsageSession.objects.filter(user=request.user).delete()
+    messages.success(request, "All sessions cleared.")
     return redirect('dashboard')
-# User dashboard view
+
 @login_required
 def dashboard(request):
     sessions = UsageSession.objects.filter(user=request.user).order_by('-start_time')
-    return render(request, 'usage_tracker/dashboard.html', {'sessions': sessions})
+    return render(request, 'usage_tracker/dashboard.html', {
+        'sessions': sessions
+    })
