@@ -26,7 +26,7 @@
 
     <style>
         body {
-            background-color: #f8f9fa;
+            background-color: #f0f4f8;
         }
         .session-card {
             transition: transform 0.2s ease-in-out;
@@ -40,6 +40,14 @@
         }
         .alert {
             border-radius: 10px;
+        }
+        .welcome-message {
+            font-size: 1.5rem;
+            color: #333;
+        }
+        .icon {
+            font-size: 2rem;
+            color: #007bff;
         }
     </style>
 </head>
@@ -79,6 +87,10 @@
     </nav>
 
     <div class="container my-5">
+        <div class="text-center mb-4">
+            <h2 class="welcome-message">Welcome, {{ user.username }}! <span class="icon">👋</span></h2>
+        </div>
+
         <h2 class="mb-4 text-center">Your Data Usage Sessions</h2>
 
         {% if sessions %}
@@ -195,7 +207,7 @@
 
                     document.getElementById('live-upload').innerText = data.uploaded_mb;
                     document.getElementById('live-download').innerText = data.downloaded_mb;
-                    document.getElementById('live-total').innerText = data.total_mb;
+                    document.getElementById(' live-total').innerText = data.total_mb;
                 });
         }
 
@@ -209,7 +221,7 @@
             <div class="modal-content shadow">
                 <div class="modal-header bg-primary text-white">
                     <h5 class="modal-title" id="changePasswordLabel">Change Password</h5>
- <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form method="post" action="{% url 'password_change' %}">
                     {% csrf_token %}
