@@ -196,23 +196,30 @@
                     labels.push(timestamp);
                     uploadData.push(data.uploaded_mb);
                     downloadData.push(data.downloaded_mb);
-
+        
                     if (labels.length > 10) {
                         labels.shift();
                         uploadData.shift();
                         downloadData.shift();
                     }
-
+        
                     usageChart.update();
-
-                    document.getElementById('live-upload').innerText = data.uploaded_mb;
-                    document.getElementById('live-download').innerText = data.downloaded_mb;
-                    document.getElementById(' live-total').innerText = data.total_mb;
+        
+                    const liveUploadElement = document.getElementById('live-upload');
+                    const liveDownloadElement = document.getElementById('live-download');
+                    const liveTotalElement = document.getElementById('live-total');
+        
+                    if (liveUploadElement) {
+                        liveUploadElement.innerText = data.uploaded_mb;
+                    }
+                    if (liveDownloadElement) {
+                        liveDownloadElement.innerText = data.downloaded_mb;
+                    }
+                    if (liveTotalElement) {
+                        liveTotalElement.innerText = data.total_mb;
+                    }
                 });
         }
-
-        setInterval(fetchLiveData, 5000);
-        fetchLiveData();
     </script>
     {% endif %}
 
